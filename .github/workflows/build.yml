@@ -1,0 +1,21 @@
+name: Build DLL
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Build DLL
+        run: cargo build --release
+      - name: Upload DLL
+        uses: actions/upload-artifact@v4
+        with:
+          name: chess_analyzer_godot
+          path: target/release/chess_analyzer_godot.dll
